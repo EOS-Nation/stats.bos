@@ -1,5 +1,9 @@
 .vscode
 build
+node_modules
+coverage
+eosc-vault.json
+__tests__
 
 # Prerequisites
 *.d
