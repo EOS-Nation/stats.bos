@@ -31,21 +31,36 @@ class [[eosio::contract("stats")]] stats : public eosio::contract {
         /**
          * Update statistics
          */
-        [[eosio::action]] void update();
+        [[eosio::action]] void update(
+            uint32_t limit
+        );
 
         [[eosio::action]] void remove();
 
     private:
         /**
-         * Statistics table
+         * Final Statistics table
          */
         struct [[eosio::table]] global {
             time_point_sec  modified_at = current_time_point();
-            int64_t         staked = 0;
-            uint32_t        vote_count = 0;
+            int64_t         voters_staked = 0;
+            int64_t         voters_staked_producers = 0;
+            int64_t         voters_staked_proxy = 0;
 
             uint64_t primary_key() const { return 0; }
         };
+
+        // /**
+        //  * Statistics table
+        //  */
+        // struct [[eosio::table]] progress {
+        //     time_point_sec  modified_at = current_time_point();
+        //     int64_t         staked = 0;
+        //     uint32_t        vote_count = 0;
+        //     name            last_owner;
+
+        //     uint64_t primary_key() const { return 0; }
+        // };
 
         typedef eosio::singleton<"global"_n, global> global_table;
         typedef eosio::multi_index<"voters"_n, voter_info> voter_table;
